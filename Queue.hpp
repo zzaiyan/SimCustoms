@@ -12,28 +12,43 @@ public:
 
 protected:
   _Node *head, *tail;
+  int _size;
 
 public:
-  Queue() : head(new _Node), tail(new _Node) {
+  Queue() : head(new _Node), tail(new _Node), _size(0) {
     head->next = tail, tail->pre = head;
   }
 
-  bool empty() { return head->next == tail; }
+  bool empty() const { return _size == 0; }
+  int size() const { return _size; }
 
-  T &front() { return head->next->data; }
+  T &front() {
+    if (_size > 0)
+      return head->next->data;
+    else {
+      qDebug() << "队列为空！";
+      return {};
+    }
+  }
 
   template <class R> void enqueue(R &&e) {
+    _size++;
     auto newNode = new _Node{e, tail->pre, tail};
     newNode->pre->next = newNode->next->pre = newNode;
   }
 
   T dequeue() {
-    auto ret = head->next->data;
-    auto del = head->next;
-    del->pre->next = del->next;
-    del->next->pre = del->pre;
-    delete del;
-    return ret;
+    if (_size-- > 0) {
+      auto ret = head->next->data;
+      auto del = head->next;
+      del->pre->next = del->next;
+      del->next->pre = del->pre;
+      delete del;
+      return ret;
+    } else {
+      qDebug() << "队列为空！";
+      return {};
+    }
   }
 };
 

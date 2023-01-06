@@ -9,6 +9,7 @@ struct Panel {
   Car *car = nullptr;
   int restTime = 0;
   int minTime, maxTime;
+  int index;
 
 public:
   Panel(int a, int b) : minTime(a), maxTime(b) {}

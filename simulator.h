@@ -17,11 +17,15 @@ struct Simulator : QObject { // k条通道，耗时c到d分钟
   Queue<Car *> *que;
   QTimer *timer;
   const int inertval = 1000;
+  bool multiQue = false;
 
 public:
   Simulator(int k, int c, int d) : panels(k, {c, d}), timer(new QTimer(this)) {
     timer->setInterval(inertval);
     connect(timer, SIGNAL(timeout()), this, SLOT(updatePanels()));
+
+    for (int i = 0; i < k; i++) // init Panel's Index
+      panels.at(i).index = i + 1;
   }
 
 public slots:
@@ -45,9 +49,16 @@ public:
 
   void reset(int k, int c, int d) {
     end();
+
+    for (auto &e : dest)
+      delete e;
+
+    dest.clear();
+
     for (auto e : panels)
       if (e.isUsing && e.car)
         delete e.car;
+
     panels = decltype(panels)(k, {c, d});
   }
 };
