@@ -2,6 +2,7 @@
 #define HOME_H
 
 #include "carmaker.h"
+#include "screen.h"
 #include "simulator.h"
 #include <QWidget>
 
@@ -18,9 +19,13 @@ public:
   Home(QWidget *parent = nullptr);
   ~Home();
 
+private slots:
+  void on_setBtn_clicked();
+
 private:
   Ui::Home *ui;
-  Simulator *sim;
-  CarMaker *maker;
+  //  Simulator *sim;
+  //  CarMaker *maker;
+  Screen *screen;
 };
 #endif // HOME_H

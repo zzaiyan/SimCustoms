@@ -14,6 +14,7 @@ SOURCES += \
     main.cpp \
     home.cpp \
     panel.cpp \
+    screen.cpp \
     simulator.cpp
 
 HEADERS += \
@@ -22,6 +23,7 @@ HEADERS += \
     carmaker.h \
     home.h \
     panel.h \
+    screen.h \
     simulator.h
 
 FORMS += \

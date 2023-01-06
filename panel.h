@@ -3,13 +3,16 @@
 
 #include "car.h"
 #include <QDebug>
+#include <ctime>
 
 struct Panel {
   bool isUsing = false;
   Car *car = nullptr;
   int restTime = 0;
   int minTime, maxTime;
-  int index;
+  int num = -1;
+
+  //  int localTime = 0;
 
 public:
   Panel(int a, int b) : minTime(a), maxTime(b) {}
@@ -24,6 +27,7 @@ public:
       exit(1);
     }
     car = c;
+    //    car->timeToPanel = localTime;
     car->status = 1;
     isUsing = true;
     restTime = random(minTime, maxTime);
@@ -31,21 +35,24 @@ public:
 
   void end() {
     car->status = 2;
+    //    car->timeToPass = localTime;
     car = nullptr;
     isUsing = false;
   }
 
-  bool updata() { // 结束时返回1，否则返回0
+  void updata() { // 结束时返回1，否则返回0
     if (isUsing) {
-      car->waitTime++;
+      //      localTime++;
+
       restTime--;
-      if (restTime <= 0) {
-        //        end();
-        return true;
-      }
+      //      if (restTime <= 0) {
+      //        //        end();
+      //        return true;
+      //      }
     }
-    return false;
+    //    return false;
   }
+  bool check() { return isUsing && restTime <= 0; }
 };
 
 #endif // PANEL_H

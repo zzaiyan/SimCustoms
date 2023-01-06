@@ -3,49 +3,69 @@
 
 #include "Queue.hpp"
 #include "panel.h"
+#include "screen.h"
 #include <QTimer>
 #include <vector>
 using std::vector;
 
 class CarMaker;
+class Home;
+class Screen;
 
 struct Simulator : QObject { // k条通道，耗时c到d分钟
   Q_OBJECT
 
   vector<Panel> panels;
   vector<Car *> dest;
-  Queue<Car *> *que;
+  vector<Queue<Car *>> *ques;
   QTimer *timer;
+  Screen *screen;
   const int inertval = 1000;
-  bool multiQue = false;
+  int queNum = 1;
 
 public:
-  Simulator(int k, int c, int d) : panels(k, {c, d}), timer(new QTimer(this)) {
+  int localTime = 0;
+
+  Simulator(int k, int c, int d, Screen *p)
+      : panels(k, {c, d}), timer(new QTimer(this)), screen(p) {
     timer->setInterval(inertval);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updatePanels()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(upEvent()));
 
     for (int i = 0; i < k; i++) // init Panel's Index
-      panels.at(i).index = i + 1;
+      panels.at(i).num = i + 1;
   }
 
 public slots:
-  void updatePanels() {
-    qDebug() << "update";
-    for (auto &pa : panels) {
-      if (pa.updata()) { // 若恰好结束
-        auto car = pa.car;
-        pa.end();
-        dest.push_back(car);
-      }
-    }
+  void upEvent() {
+    localTime++;
+    qDebug() << "————SimEvent";
+    upPanel();
+    check();
   }
 
 public:
-  void setQue(Queue<Car *> *q) { que = q; }
+  void upPanel() {
+    for (auto &pa : panels) { // 处理已完成车辆
+      pa.updata();
+    }
+  }
 
-  void start() { timer->start(); }
+  void check();
 
-  void end() { timer->stop(); }
+  void setQue(vector<Queue<Car *>> *q) {
+    ques = q;
+    queNum = ques->size();
+  }
+
+  void start() {
+    timer->start();
+    qDebug() << "Simulator.start();";
+  }
+
+  void end() {
+    timer->stop();
+    qDebug() << "Simulator.end();";
+  }
 
   void reset(int k, int c, int d) {
     end();
