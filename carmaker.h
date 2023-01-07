@@ -75,7 +75,7 @@ public:
 
 public slots:
   void check() {
-    qDebug() << "————CarEvent";
+    //    qDebug() << "————CarEvent";
     //    localTime++; // 时间戳
     restTime--; // 生成倒计时
     if (restTime <= 0)

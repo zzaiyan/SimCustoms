@@ -1,5 +1,14 @@
 #include "simulator.h"
 
+Simulator::Simulator(int k, int c, int d, Screen *p)
+    : panels(k, {c, d}), timer(new QTimer(this)), screen(p) {
+  timer->setInterval(inertval);
+  connect(timer, SIGNAL(timeout()), this, SLOT(upEvent()));
+
+  for (int i = 0; i < k; i++) // init Panel's Index
+    panels.at(i).num = i + 1;
+}
+
 void Simulator::check() {
   for (auto &pa : panels) { // 处理已完成车辆
                             //      pa.updata();

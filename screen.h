@@ -14,6 +14,9 @@
 #include <vector>
 using std::vector;
 
+class CarMaker;
+struct Simulator;
+
 class Screen : public QWidget {
   Q_OBJECT
 

@@ -26,19 +26,12 @@ struct Simulator : QObject { // k条通道，耗时c到d分钟
 public:
   int localTime = 0;
 
-  Simulator(int k, int c, int d, Screen *p)
-      : panels(k, {c, d}), timer(new QTimer(this)), screen(p) {
-    timer->setInterval(inertval);
-    connect(timer, SIGNAL(timeout()), this, SLOT(upEvent()));
-
-    for (int i = 0; i < k; i++) // init Panel's Index
-      panels.at(i).num = i + 1;
-  }
+  Simulator(int k, int c, int d, Screen *p);
 
 public slots:
   void upEvent() {
     localTime++;
-    qDebug() << "————SimEvent";
+    //    qDebug() << "————SimEvent";
     upPanel();
     check();
   }

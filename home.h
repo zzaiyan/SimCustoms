@@ -1,9 +1,7 @@
 #ifndef HOME_H
 #define HOME_H
 
-#include "carmaker.h"
 #include "screen.h"
-#include "simulator.h"
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -24,8 +22,6 @@ private slots:
 
 private:
   Ui::Home *ui;
-  //  Simulator *sim;
-  //  CarMaker *maker;
   Screen *screen;
 };
 #endif // HOME_H
