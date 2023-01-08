@@ -49,10 +49,10 @@ public:
   auto getQues() { return &ques; } // Pass by Pointer of Vector
 
   int minQue() { // Get the index of Que with min size
-    QString buf("Ques: ");
-    for (int i = 0; i < queNum; i++)
-      buf.append(QString("%1 ").arg(ques.at(i).size()));
-    qDebug() << buf;
+//    QString buf("Ques: ");
+//    for (int i = 0; i < queNum; i++)
+//      buf.append(QString("%1 ").arg(ques.at(i).size()));
+//    qDebug() << buf;
 
     int m = 0;
     for (int i = 0; i < queNum; i++)

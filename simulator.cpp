@@ -26,7 +26,7 @@ void Simulator::check() {
                       .arg(car->passTime());
       screen->setPanel(pa.num - 1, 0);
 
-      car->print();
+//      car->print();
 
       dest.push_back(car);
 
